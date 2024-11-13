@@ -1,5 +1,5 @@
 import sqlite3
-
+from application import JobApplication
 
 class DatabaseManager:
     def __init__(self, db_name='applications.db'):
@@ -23,13 +23,13 @@ class DatabaseManager:
         conn.commit()
         conn.close()
 
-    def add(self, job_name, company_name, method, referral, date, status):
+    def add_application(self, application: JobApplication):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
         cursor.execute('''
                        INSERT INTO job_applications (job_name, company_name, method, referral, date, status)
                        VALUES (?, ?, ?, ?, ?, ?)
-                       ''', (job_name, company_name, method, referral, date, status))
+                       ''', (application.job_name, application.company_name, application.method, application.referral, application.date, application.status))
         conn.commit()
         conn.close()
         

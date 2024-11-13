@@ -1,5 +1,8 @@
 import tkinter as tk
 from application import JobApplication
+from database_manager import DatabaseManager
+
+db_manager = DatabaseManager()
 
 def save_data():
     job_title = job_title_entry.get()
@@ -10,7 +13,12 @@ def save_data():
     status = status_entry.get()
     
     job_application = JobApplication(job_title, company_name, method, referral_yn, date, status)
-    print(job_application)
+    try:
+        db_manager.add_application(job_application)
+    except Exception as e:
+        print(f"An error has occured: {e}")
+        
+    print("Data Saved")
     
     job_title_entry.delete(0, tk.END)
     company_entry.delete(0, tk.END)
@@ -18,7 +26,7 @@ def save_data():
     referral_entry.delete(0, tk.END)
     date_entry.delete(0, tk.END)
     status_entry.delete(0, tk.END)
-    print("Data Saved")
+    
     
 root = tk.Tk()
 root.title("Job Application Tracker")
