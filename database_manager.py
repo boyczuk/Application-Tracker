@@ -40,3 +40,20 @@ class DatabaseManager:
         rows = cursor.fetchall()
         conn.close()
         return rows
+    
+    def update_application(self, application_id, updated_application: JobApplication):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+        cursor.execute('''UPDATE job_applications
+                        SET job_name = ?, company_name = ?, method = ?, referral = ?, date = ?, status = ?
+                        WHERE id = ?''', (
+                            updated_application.job_name,
+                            updated_application.company_name,
+                            updated_application.method,
+                            updated_application.referral,
+                            updated_application.date,
+                            updated_application.status,
+                            application_id
+                        ))
+        conn.commit()
+        conn.close()
