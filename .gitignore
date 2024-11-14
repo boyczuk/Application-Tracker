@@ -1,3 +1,6 @@
 /__pycache__
 
 applications.db
+
+dist
+build
